@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>cucumber</groupId>
+	<artifactId>cucumberjvm-selenium-pageobject</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+	<name>Cucumber-JVM Selenium page object</name>
+
+	<properties>
+		<cucumber.version>5.1.0</cucumber.version>
+		<picocontainer.version>5.1.0</picocontainer.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-testng</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>gherkin</artifactId>
+			<version>4.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-jvm</artifactId>
+			<version>${cucumber.version}</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<!-- <dependency> <groupId>xerces</groupId> <artifactId>xercesImpl</artifactId> 
+			<version>2.12.0</version> </dependency> -->
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java8</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- <dependency> <groupId>com.vimalselvam</groupId> <artifactId>cucumber-extentsreport</artifactId> 
+			<version>3.1.1</version> </dependency> <dependency> <groupId>com.aventstack</groupId> 
+			<artifactId>extentreports</artifactId> <version>4.0.8</version> </dependency> 
+			<dependency> <groupId>com.aventstack</groupId> <artifactId>extentreports-cucumber4-adapter</artifactId> 
+			<version>1.0.10</version> </dependency> <dependency> <groupId>com.relevantcodes</groupId> 
+			<artifactId>extentreports</artifactId> <version>2.41.2</version> </dependency> -->
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M4</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<testFailureIgnore>true</testFailureIgnore>
+					<!-- <groups>sanityTests,RegressionTests</groups> -->
+					<!-- <excludedGroups></excludedGroups> -->
+				</configuration>
+				<!-- <configuration> <testClassesDirectory>s360UIAutomationCC/src/main/java</testClassesDirectory> 
+					<testSourceDirectory>Framework/src/test/java</testSourceDirectory> <testFailureIgnore>true</testFailureIgnore> 
+					<includes> <include>**/*JunitTestRunner.java</include> </includes> <excludes> 
+					<exclude>**/*RunCukesTest.java</exclude> </excludes> </configuration> -->
+			</plugin>
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>5.0.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>VPM-Automation_v1</projectName>
+							<!-- Replace with project name -->
+							<outputDirectory>target/cucumber-reports</outputDirectory>
+							<cucumberOutput>target/cucumber-reports/CucumberTestReport.json</cucumberOutput>
+							<buildNumber>1</buildNumber>
+							<parallelTesting>false</parallelTesting>
+							<skip>false</skip>
+							<inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
+							<jsonFiles>
+								<!-- supports wildcard or name pattern -->
+								<jsonFile>**/*.json</jsonFile>
+							</jsonFiles>
+							<!-- optional, defaults to outputDirectory if not specified -->
+							<classificationDirectory>${project.build.directory}/cucumber-reports</classificationDirectory>
+							<parallelTesting>false</parallelTesting>
+							<!-- optional, set true to fail build on test failures -->
+							<checkBuildResult>true</checkBuildResult>
+						</configuration>
+					</execution>
+				</executions>
+				<!-- <executions> <execution> <id>execution</id> <phase>verify</phase> 
+					<goals> <goal>generate</goal> </goals> <configuration> <projectName>cucumberjvm-selenium-pageobject</projectName> 
+					<outputDirectory>${project.build.directory}</outputDirectory> <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput> 
+					<jsonFiles> <param>${project.build.directory}/*.json</param> </jsonFiles> 
+					<skippedFails>true</skippedFails> <enableFlashCharts>false</enableFlashCharts> 
+					<buildNumber>42</buildNumber> <parallelTesting>false</parallelTesting> <checkBuildResult>false</checkBuildResult> 
+					</configuration> </execution> </executions> -->
+			</plugin>
+			<!-- <plugin> <groupId>com.github.temyers</groupId> <artifactId>cucumber-jvm-parallel-plugin</artifactId> 
+				<version>4.2.0</version> <executions> <execution> <id>generateRunners</id> 
+				<phase>generate-test-sources</phase> <goals> <goal>generateRunners</goal> 
+				</goals> <configuration> <glue> <package>com.coveros</package> </glue> <plugins> 
+				<plugin> <name>json</name> </plugin> <plugin> <name>html</name> </plugin> 
+				</plugins> <useTestNG>true</useTestNG> <namingScheme>feature-title</namingScheme> 
+				<parallelScheme>SCENARIO</parallelScheme> <tags> <tag>~@wip</tag> </tags> 
+				</configuration> </execution> </executions> </plugin> -->
+		</plugins>
+	</build>
+</project>
