@@ -2,19 +2,180 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>cucumber</groupId>
-	<artifactId>cucumberjvm-selenium-pageobject</artifactId>
-	<version>0.0.1</version>
-	<packaging>jar</packaging>
-	<name>Cucumber-JVM Selenium page object</name>
+	<groupId>com.vpm</groupId>
+	<artifactId>VPM-Automation_v1</artifactId>
+	<version>1.0</version>
+	<name>vpm_automation</name>
 
 	<properties>
 		<cucumber.version>5.1.0</cucumber.version>
 		<picocontainer.version>5.1.0</picocontainer.version>
 	</properties>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M4</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<testFailureIgnore>true</testFailureIgnore>
+					<excludedGroups></excludedGroups>
+					<!-- <classesDirectory>${project.build.outputDirectory}</classesDirectory> -->
+				</configuration>
+			</plugin>
+			<!-- <plugin> <artifactId>maven-assembly-plugin</artifactId> <version>3.3.0</version> 
+				<configuration> <descriptorRefs> </descriptorRefs> <descriptor>src/main/resources/assemblies/assembly.xml</descriptor> 
+				</configuration> <executions> <execution> <id>make-assembly</id> <phase>package</phase> 
+				<goals> <goal>single</goal> </goals> <configuration> <archive> <manifest> 
+				<mainClass>runCukesTest.exec</mainClass> </manifest> </archive> </configuration> 
+				</execution> </executions> </plugin> -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
+				<version>2.4</version> <configuration> <archive> <index>true</index> <manifest> 
+				<mainClass>runCukesTest.exec</mainClass> </manifest> </archive> </configuration> 
+				</plugin> -->
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>5.0.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>VPM-Automation_v1</projectName>
+							<sourceDirectory>${project.build.sourceDirectory}/../resources</sourceDirectory>
+							<!-- Replace with project name -->
+							<outputDirectory>target/cucumber-reports</outputDirectory>
+							<cucumberOutput>target/cucumber-reports/CucumberTestReport.json</cucumberOutput>
+							<buildNumber>1</buildNumber>
+							<parallelTesting>false</parallelTesting>
+							<skip>false</skip>
+							<inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
+							<jsonFiles>
+								<!-- supports wildcard or name pattern -->
+								<jsonFile>**/*.json</jsonFile>
+							</jsonFiles>
+							<!-- optional, defaults to outputDirectory if not specified -->
+							<classificationDirectory>${project.build.directory}/cucumber-reports</classificationDirectory>
+							<parallelTesting>false</parallelTesting>
+							<!-- optional, set true to fail build on test failures -->
+							<checkBuildResult>true</checkBuildResult>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- <plugin> <groupId>com.github.temyers</groupId> <artifactId>cucumber-jvm-parallel-plugin</artifactId> 
+				<version>4.2.0</version> <executions> <execution> <id>generateRunners</id> 
+				<phase>generate-test-sources</phase> <goals> <goal>generateRunners</goal> 
+				</goals> <configuration> <glue> <package>com.coveros</package> </glue> <plugins> 
+				<plugin> <name>json</name> </plugin> <plugin> <name>html</name> </plugin> 
+				</plugins> <useTestNG>true</useTestNG> <namingScheme>feature-title</namingScheme> 
+				<parallelScheme>SCENARIO</parallelScheme> <tags> <tag>~@wip</tag> </tags> 
+				</configuration> </execution> </executions> </plugin> -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>3.2.4</version> <executions> <execution> <phase>package</phase> 
+				<goals> <goal>shade</goal> </goals> <configuration> <shadedArtifactAttached>true</shadedArtifactAttached> 
+				<transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				<manifestEntries> <mainClass>com.vpm.runCukesTest.exec</mainClass> </manifestEntries> 
+				</transformer> <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer"> 
+				<resource>testng.xml</resource> <file>testng.xml</file> </transformer> </transformers> 
+				<createDependencyReducedPom> false </createDependencyReducedPom> </configuration> 
+				</execution> </executions> </plugin> -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>classes</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.2</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<resources>
+						<resource>
+							<directory>classes</directory>
+							<filtering>true</filtering>
+						</resource>
+					</resources>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.vpm.runCukesTest.exec</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
+		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>7.3.0</version>
+		</dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
@@ -50,18 +211,14 @@
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.10</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
+		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+			<version>1.2.17</version> </dependency> -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -79,22 +236,15 @@
 		</dependency>
 		<!-- <dependency> <groupId>xerces</groupId> <artifactId>xercesImpl</artifactId> 
 			<version>2.12.0</version> </dependency> -->
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.6</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.jdom</groupId> <artifactId>jdom2</artifactId> 
+			<version>2.0.6</version> </dependency> -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
 		</dependency>
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-java8</artifactId>
-			<version>${cucumber.version}</version>
-			<scope>test</scope>
-		</dependency>
+		<!-- <dependency> <groupId>io.cucumber</groupId> <artifactId>cucumber-java8</artifactId> 
+			<version>${cucumber.version}</version> <scope>test</scope> </dependency> -->
 		<!-- <dependency> <groupId>com.vimalselvam</groupId> <artifactId>cucumber-extentsreport</artifactId> 
 			<version>3.1.1</version> </dependency> <dependency> <groupId>com.aventstack</groupId> 
 			<artifactId>extentreports</artifactId> <version>4.0.8</version> </dependency> 
@@ -106,83 +256,41 @@
 			<artifactId>cucumber-reporting</artifactId>
 			<version>5.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-picocontainer</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vimalselvam</groupId>
+			<artifactId>cucumber-extentsreport</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aventstack</groupId>
+			<artifactId>extentreports</artifactId>
+			<version>5.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.tess4j</groupId>
+			<artifactId>tess4j</artifactId>
+			<version>4.5.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.applitools/eyes-selenium-java -->
+		<dependency>
+			<groupId>com.applitools</groupId>
+			<artifactId>eyes-selenium-java</artifactId>
+			<version>2.57</version>
+		</dependency>
+		<dependency>
+			<groupId>org</groupId>
+			<artifactId>jaudiotagger</artifactId>
+			<version>2.0.3</version>
+		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M4</version>
-				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>testng.xml</suiteXmlFile>
-					</suiteXmlFiles>
-					<testFailureIgnore>true</testFailureIgnore>
-					<!-- <groups>sanityTests,RegressionTests</groups> -->
-					<!-- <excludedGroups></excludedGroups> -->
-				</configuration>
-				<!-- <configuration> <testClassesDirectory>s360UIAutomationCC/src/main/java</testClassesDirectory> 
-					<testSourceDirectory>Framework/src/test/java</testSourceDirectory> <testFailureIgnore>true</testFailureIgnore> 
-					<includes> <include>**/*JunitTestRunner.java</include> </includes> <excludes> 
-					<exclude>**/*RunCukesTest.java</exclude> </excludes> </configuration> -->
-			</plugin>
-			<plugin>
-				<groupId>net.masterthought</groupId>
-				<artifactId>maven-cucumber-reporting</artifactId>
-				<version>5.0.0</version>
-				<executions>
-					<execution>
-						<id>execution</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<projectName>VPM-Automation_v1</projectName>
-							<!-- Replace with project name -->
-							<outputDirectory>target/cucumber-reports</outputDirectory>
-							<cucumberOutput>target/cucumber-reports/CucumberTestReport.json</cucumberOutput>
-							<buildNumber>1</buildNumber>
-							<parallelTesting>false</parallelTesting>
-							<skip>false</skip>
-							<inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
-							<jsonFiles>
-								<!-- supports wildcard or name pattern -->
-								<jsonFile>**/*.json</jsonFile>
-							</jsonFiles>
-							<!-- optional, defaults to outputDirectory if not specified -->
-							<classificationDirectory>${project.build.directory}/cucumber-reports</classificationDirectory>
-							<parallelTesting>false</parallelTesting>
-							<!-- optional, set true to fail build on test failures -->
-							<checkBuildResult>true</checkBuildResult>
-						</configuration>
-					</execution>
-				</executions>
-				<!-- <executions> <execution> <id>execution</id> <phase>verify</phase> 
-					<goals> <goal>generate</goal> </goals> <configuration> <projectName>cucumberjvm-selenium-pageobject</projectName> 
-					<outputDirectory>${project.build.directory}</outputDirectory> <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput> 
-					<jsonFiles> <param>${project.build.directory}/*.json</param> </jsonFiles> 
-					<skippedFails>true</skippedFails> <enableFlashCharts>false</enableFlashCharts> 
-					<buildNumber>42</buildNumber> <parallelTesting>false</parallelTesting> <checkBuildResult>false</checkBuildResult> 
-					</configuration> </execution> </executions> -->
-			</plugin>
-			<!-- <plugin> <groupId>com.github.temyers</groupId> <artifactId>cucumber-jvm-parallel-plugin</artifactId> 
-				<version>4.2.0</version> <executions> <execution> <id>generateRunners</id> 
-				<phase>generate-test-sources</phase> <goals> <goal>generateRunners</goal> 
-				</goals> <configuration> <glue> <package>com.coveros</package> </glue> <plugins> 
-				<plugin> <name>json</name> </plugin> <plugin> <name>html</name> </plugin> 
-				</plugins> <useTestNG>true</useTestNG> <namingScheme>feature-title</namingScheme> 
-				<parallelScheme>SCENARIO</parallelScheme> <tags> <tag>~@wip</tag> </tags> 
-				</configuration> </execution> </executions> </plugin> -->
-		</plugins>
-	</build>
 </project>
